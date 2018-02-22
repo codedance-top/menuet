@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= config.title %></title>
+  <% (config.stylesheets || []).forEach(stylesheet => { %>
+  <link rel="stylesheet" type="text/css" href="<%= stylesheet %>">
+  <% }) %>
+</head>
+<body class="index">
+<h1><%= config.title %></h1>
+<% docs.forEach(doc => { %>
+<p><a href="./<%= doc.filename %>"><%= doc.title %> (<%= doc.routes.length %>)</a></p>
+<% }); %>
+</body>
+</html>

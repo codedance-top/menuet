@@ -1,0 +1,28 @@
+{
+  "name": "menuet",
+  "description": "Menuet web application development framework",
+  "version": "1.0.0",
+  "license": "MIT",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "dependencies": {
+    "colors": "1.1.2",
+    "lodash": "4.17.4",
+    "moment": "2.19.1",
+    "express": "4.16.2",
+    "body-parser": "1.18.2",
+    "compression": "1.7.1",
+    "cookie-parser": "1.4.3",
+    "ejs": "2.5.7",
+    "ajv": "5.5.2",
+    "mongoose": "4.13.0",
+    "redis": "2.8.0"
+  },
+  "main": "index.js",
+  "bin": {
+    "menuet": "index.js",
+    "menuet-docs": "generate-docs.js",
+    "menuet-init": "init/index.js"
+  }
+}

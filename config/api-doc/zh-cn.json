@@ -1,0 +1,44 @@
+{
+  "title": "API 文档",
+  "heads": {
+    "path": "请求方法及路径",
+    "description": "业务说明",
+    "params": "路径参数",
+    "query": "查询参数",
+    "body": "请求数据",
+    "response": "响应数据"
+  },
+  "tableHeads": {
+    "index": "索引",
+    "fieldName": "参数名",
+    "dataType": "类型",
+    "required": "必须",
+    "defaultValue": "默认值",
+    "description": "说明",
+    "comment": "备注",
+    "value": "值"
+  },
+  "values": {
+    "yes": "是",
+    "string": "字符串",
+    "number": "数字",
+    "integer": "整数",
+    "boolean": "布尔",
+    "array": "数组",
+    "object": "对象"
+  },
+  "texts": {
+    "backToIndex": "返回首页",
+    "showDetails": "展开详细",
+    "validValues": "可选值：",
+    "valueRange": "取值范围：",
+    "minimum": "最小值：",
+    "maximum": "最大值：",
+    "exclusive": "（不包含）",
+    "dependencies": "设置该字段时必须设置以下字段："
+  },
+  "delimiters": {
+    "values": "、"
+  },
+  "copyright": "Powered by proding.net"
+}

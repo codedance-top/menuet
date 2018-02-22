@@ -1,0 +1,11 @@
+{
+  "smtp": {
+    "host": "smtp.example.com",
+    "port": 25,
+    "secure": false,
+    "auth": {
+      "user": "project_coding@example.com",
+      "pass": "********"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+/**/.svn/
+/**/.idea/
+/**/.DS_Store
+/**/.project
+/**/desktop.ini
+
+/**/node_modules/*
+/**/npm-debug.log
+/**/package-lock.json

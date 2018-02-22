@@ -1,0 +1,168 @@
+<%
+
+let defaultCount = 0, fieldNameKey = 'index';
+
+schema.properties = schema.properties || {};
+
+Object.keys(schema.properties).forEach(propertyName => {
+
+  let property = schema.properties[propertyName];
+  let defaultValueJSON = JSON.stringify(property.default);
+
+  if (typeof(property.default) !== 'undefined'
+      && defaultValueJSON !== '{}'
+      && defaultValueJSON !== '[]') {
+    defaultCount++;
+  }
+
+  if (!/^[0-9]+$/.test(propertyName)) {
+    fieldNameKey = 'fieldName';
+  }
+
+});
+
+%>
+<table>
+  <thead>
+    <tr>
+      <th class="field-name left"><%= config.tableHeads[fieldNameKey] %></th>
+      <th class="data-type center"><%= config.tableHeads.dataType %></th><%
+      if (options.showNecessity) { %><th class="required-or-not center"><%= config.tableHeads.required %></th><% }
+      if (defaultCount) { %><th class="default-value center"><%= config.tableHeads.defaultValue %></th><% } %>
+      <th class="description left"><%= config.tableHeads.description %></th>
+    </tr>
+  </thead>
+  <tbody><%
+
+      Object.keys(schema.properties).forEach(propertyName => {
+
+        let property = schema.properties[propertyName];
+
+
+        if (property.$ref) {
+          property = Object.assign({}, config.ajv.getSchema(property.$ref).schema, property);
+        }
+
+        if (property.items && property.items.$ref) {
+
+          property.items = Object.assign({}, config.ajv.getSchema(property.items.$ref).schema, property.items);
+
+        } else if (Array.isArray(property.items)) {
+
+          property.items.forEach((item, index) => {
+            if (item.$ref) {
+              property.items[index] = Object.assign({}, config.ajv.getSchema(item.$ref).schema, property.items[index]);
+            }
+          });
+
+        }
+
+        let isRequired = (schema.required || []).indexOf(propertyName) >= 0;
+    %>
+    <tr class="<%= isRequired ? 'required' : 'optional' %>">
+      <td class="field-name left"><code><%= propertyName %></code></td>
+      <td class="data-type center"><%= getPropertyType(config, propertyName, property) %></td><%
+      if (options.showNecessity) { %><td class="required-or-not center"><%= isRequired ? config.values.yes : '' %></td><% }
+      if (defaultCount) { %><td class="default-value center"><%
+          if (typeof(property.default) !== 'undefined') {
+        %><code><%= typeof property.default === 'object' ? JSON.stringify(property.default, null, 2) : property.default %></code><%
+          }
+      %></td><% } %>
+      <td class="description left <%= property.$collapsed ? 'collapsed' : '' %>"><%- escapeHTML(property.description) %><%
+          if (property.$collapsed) {
+        %>&nbsp;<a href="javascript: void(0);" onclick="toggleClass(this.parentNode, 'collapsed'); this.remove();">[<%= config.texts.showDetails %>]</a><% } %><div class="details"><%
+          if (property.properties) {
+        %><%- renderSchemaSpecs(config, property, options); %><%
+          } else if (property.oneOf) {
+        %><%- renderSchemaSpecs(config, property.oneOf[0], options); %><%
+          } else if (property.items && property.items.type === 'object') {
+        %><%- renderSchemaSpecs(config, property.items, options); %><%
+          } else if (Array.isArray(property.items)) {
+
+            let itemSchema = {
+              properties: {}
+            };
+
+            property.items.forEach((item, index) => {
+              itemSchema.properties[index] = item;
+            });
+
+        %><%- renderSchemaSpecs(config, itemSchema, options); %><%
+          }
+
+          let enumValueMap = property.$enum || (property.items && property.items.$enum);
+
+          // valid values' specifications
+          if (enumValueMap) {
+
+        %><div>
+          <%= config.texts.validValues %>
+          <table>
+            <thead>
+              <tr>
+                <th><%= config.tableHeads.value %></th>
+                <th><%= config.tableHeads.description %></th>
+              </tr>
+            </thead>
+            <tbody><%
+                Object.keys(enumValueMap).forEach(validValue => { %>
+              <tr>
+                <td><code><%= validValue %></code></td>
+                <td><%- escapeHTML(enumValueMap[validValue]) %></td>
+              </tr><% }); %>
+            </tbody>
+          </table>
+        </div><%
+
+          }
+
+          if (property.range) {
+            property.minimum = property.range[0];
+            property.maximum = property.range[1];
+          }
+
+          if (typeof(property.minimum) === 'number'
+              || typeof(property.exclusiveMinimum) === 'number'
+              || typeof(property.maximum) === 'number'
+              || typeof(property.exclusiveMaximum) === 'number') {
+
+        %><div><%
+          if (typeof(property.maximum) !== 'number'
+              && typeof(property.exclusiveMaximum) !== 'number') {
+        %><%= config.texts.minimum %><%
+          } else if (typeof(property.minimum) !== 'number'
+                      && typeof(property.exclusiveMinimum) !== 'number') {
+        %><%= config.texts.minimum %><%
+          } else {
+        %><%= config.texts.valueRange %><%
+          }
+          if (typeof(property.minimum) === 'number'
+              || typeof(property.exclusiveMinimum) === 'number') {
+        %><code><%= property.minimum || property.exclusiveMinimum %></code><%
+          }
+          if ((typeof(property.minimum) === 'number'
+              || typeof(property.exclusiveMinimum) === 'number')
+              && (typeof(property.maximum) === 'number'
+                  || typeof(property.exclusiveMaximum) === 'number')) {
+        %> ~ <%
+          }
+          if (typeof(property.maximum) === 'number'
+              || typeof(property.exclusiveMaximum) === 'number') {
+        %><code><%= property.maximum || property.exclusiveMaximum %></code><%
+          }
+        %></div><%
+          }
+
+          let dependencies = (schema.dependencies || {})[propertyName];
+
+          if (Array.isArray(dependencies)) {
+
+            dependencies = dependencies.map(dependency => `<code>${dependency}</code>`);
+
+        %><div><%= config.texts.dependencies %><%- dependencies.join(config.delimiters.values); %></div><%
+          }
+        %></div></td>
+    </tr><%
+      }); %>
+  </tbody>
+</table>

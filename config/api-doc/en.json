@@ -1,0 +1,44 @@
+{
+  "title": "API Docs",
+  "heads": {
+    "path": "Request Method and Path",
+    "description": "Description",
+    "params": "Path Parameters",
+    "query": "Query Parameters",
+    "body": "Request Body",
+    "response": "Response Data"
+  },
+  "tableHeads": {
+    "index": "index",
+    "fieldName": "field",
+    "dataType": "type",
+    "required": "required",
+    "defaultValue": "default",
+    "description": "description",
+    "comment": "comment",
+    "value": "value"
+  },
+  "values": {
+    "yes": "yes",
+    "string": "string",
+    "number": "number",
+    "integer": "integer",
+    "boolean": "boolean",
+    "array": "array",
+    "object": "object"
+  },
+  "texts": {
+    "backToIndex": "Back to Index",
+    "showDetails": "show details",
+    "validValues": "valid values: ",
+    "valueRange": "value range: ",
+    "minimum": "minimum: ",
+    "maximum": "maximum: ",
+    "exclusive": "(exclusive)",
+    "dependencies": "dependencies: "
+  },
+  "delimiters": {
+    "values": ", "
+  },
+  "copyright": "Powered by proding.net"
+}

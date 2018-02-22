@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= doc.title %></title>
+  <style type="text/css">
+    * { font-family: "Menlo", "Consolas", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "monospace"; }
+    tr > * { text-align: left; }
+    tr > *.left { text-align: left; }
+    tr > *.center { text-align: center; }
+    tr > *.field-name { width: 8em; min-width: 8em; }
+    tr > *.data-type { width: 8em; min-width: 8em; }
+    tr > *.required-or-not { width: 4em; min-width: 4em; }
+    tr > *.default-value { min-width: 4em; }
+    tr > *.description { min-width: 8em; }
+    tr > *.comment { min-width: 8em; }
+    td.collapsed > div.details { display: none; }
+  </style>
+  <script type="text/javascript">
+    function toggleClass(node, className) {
+
+      var classNames = (node.className || '').split(/\s+/);
+      var index = classNames.indexOf(className);
+
+      if (index < 0) {
+        classNames.push(className);
+      } else {
+        classNames.splice(index, 1);
+      }
+
+      node.className = classNames.join(' ');
+    }
+  </script><%
+  (config.stylesheets || []).forEach(stylesheet => {  %>
+  <link rel="stylesheet" type="text/css" href="<%= stylesheet %>"><% }) %>
+</head>
+<body class="api-docs">
+
+<nav>
+  <a href="./" class="back"><%= config.texts.backToIndex %></a><%
+    doc.routes.forEach(route => {
+      route.id = `${route.method}${route.path.replace(/[^0-9a-z]+/gi, '-')}`; %>
+  <a href="#<%= route.id %>" class="api-doc">
+    <span><%= route.name %></span>
+    <code><%= route.method.toUpperCase() %> <%= route.path %></code>
+  </a><% }); %>
+</nav>
+
+<h1><%= doc.title %></h1>
+
+<% doc.routes.forEach(route => {
+%><h2 id="<%= route.id %>"><a href="#<%= route.id %>"><%= route.name %></a></h2>
+
+<h3><%= config.heads.path %></h3>
+<pre class="url"><code><span class="method"><%= route.method.toUpperCase() %></span> <%- route.path.replace(/:[^\/?#]+/g, (parameter) => { return `<span class="parameter">${parameter}</span>`; }) %></code></pre>
+
+<% if (route.description) {
+%><h3><%= config.heads.description %></h3>
+<p><%- escapeHTML(route.description) %></p>
+<% }
+  [ route.params, route.query, route.body, route.response ].forEach((schema, index) => {
+    if (!schema) { return; }
+%><h3><%= [ config.heads.params, config.heads.query, config.heads.body, config.heads.response ][index] %></h3><%
+  console.log(`${'rendering schema:'.cyan} ${(schema.$id || schema.id).yellow}`); %>
+<%-
+  renderSchemaSpecs(config, schema, {
+    showNecessity: index !== 3
+  })
+%>
+<%
+    });
+
+  });
+
+  if (config.copyright) {
+%><div class="copyright"><%- config.copyright %></div><%
+  } %>
+</body>
+</html>

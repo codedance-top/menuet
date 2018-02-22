@@ -1,0 +1,40 @@
+{
+  "defaults": {
+    "language": "en",
+    "domain": "127.0.0.1:3000"
+  },
+  "http": {
+    "port": 3000,
+    "jsonParser": {
+      "limit": "2mb"
+    },
+    "urlencodedParser": {
+      "limit": "2mb",
+      "extended": true
+    },
+    "cookieParser": "secret",
+    "allowCrossDomainAccess": true,
+    "router": {
+      "caseSensitive": true,
+      "mergeParams": true,
+      "strict": true
+    },
+    "base": "/"
+  },
+  "paths": {
+    "public": "public",
+    "static": "static",
+    "views": "views",
+    "strings": "public/assets/strings",
+    "schemas": "schemas",
+    "utils": "utils",
+    "models": "models",
+    "services": "services",
+    "interceptors": "interceptors",
+    "controllers": "controllers",
+    "defaultResolver": "resolvers/default.js",
+    "errorResolver": "resolvers/error.js",
+    "routes": "routes",
+    "init": "init.js"
+  }
+}

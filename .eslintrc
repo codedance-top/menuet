@@ -1,0 +1,29 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "mongo": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "globals": {
+  },
+  "rules": {
+    "strict": [ 2, "global" ],
+    "indent": [ 2, 2, { "SwitchCase": 1 } ],
+    "curly": 2,
+    "semi": 2,
+    "quotes": [ 2, "single", "avoid-escape" ],
+    "eqeqeq": 2,
+    "key-spacing": [ 2, { "beforeColon": false, "afterColon": true } ],
+    "no-underscore-dangle": [ 2, { "allow": [ "_", "_id" ] } ],
+    "no-shadow": 0,
+    "no-unused-expressions": [ 2, { "allowShortCircuit": true, "allowTernary": true } ],
+    "new-cap": [ 2, { "capIsNewExceptions": [ "express.Router", "ObjectId" ] } ],
+    "no-undef": 2,
+    "no-multi-spaces": 2,
+    "no-mixed-spaces-and-tabs": 2,
+    "no-trailing-spaces": 2
+  }
+}
