@@ -6,7 +6,7 @@ Menuet 基于 [proding.net](https://proding.net/spec/backend) 的设计规范实
 
 Menuet Web 应用开发框架具有以下特点：
 
-- 自动实现业务分层：将个业务分层的模块的定义文件置于相应的路径下即可；
+- 自动实现业务分层：将各业务分层的模块的定义文件置于相应的路径下即可；
 - 模块间调用通过注入的方式实现：如果模块A的业务逻辑依赖于模块B，那么只需将模块B的名称作为模块A定义函数的参数（即依赖注入），模块A即可调用模块B；
 - 规范了模块之间的调用关系：例如只可向服务层的模块注入工具模块和数据模型，服务模块不可依赖其他服务；
 - 使用 JSON Schema 对请求数据及响应数据进行校验；
@@ -47,7 +47,7 @@ $ npm install
 执行该脚本，Menuet Web 应用开发框架将使用示例工程代码初始化当前工程，本说明文档将以该示例工程展开说明。
 
 ```shell
-> npm run init
+$ npm run init
 ```
 
 > 注意：初始化后，工程目录下的文件将会被示例工程代码替换，包括 `package.json` 文件。开始正式开发前，请将示例工程的 `package.json` 中的 `init` 脚本配置删除。
@@ -1115,13 +1115,13 @@ module.exports = async (UserService) => {
 以开发模式启动：
 
 ```shell
-> npm run start-debug
+$ npm run start-debug
 ```
 
 以生产模式启动：
 
 ```shell
-> npm run start
+$ npm run start
 ```
 
 ## 生成 API 文档
@@ -1157,7 +1157,7 @@ module.exports = async (UserService) => {
 执行脚本，生成 API 文档：
 
 ```shell
-> npm run docs
+$ npm run docs
 ```
 
 <p style="margin-top: 2em; text-align: center; color: #9F9F9F;">&copy; 2017-present LiveBridge Information Technology Co., Ltd.</p>
