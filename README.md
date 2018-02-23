@@ -2,6 +2,8 @@
 
 Menuet Web 应用开发框架旨在提高 Web 应用开发效率，规范项目开发流程。
 
+Menuet 基于 [proding.net](https://proding.net/spec/backend) 的设计规范实现。
+
 Menuet Web 应用开发框架具有以下特点：
 
 - 自动实现业务分层：将个业务分层的模块的定义文件置于相应的路径下即可；
@@ -10,27 +12,24 @@ Menuet Web 应用开发框架具有以下特点：
 - 使用 JSON Schema 对请求数据及响应数据进行校验；
 - 可根据路由定义及 JSON Schema 定义自动生成 API 文档。
 
-运行 Project Coding Web 应用开发框架需要 Node.js v7.0.0 或以上版本。
+运行 Menuet Web 应用开发框架需要 Node.js v7.0.0 或以上版本。
 
 ## 配置依赖模块
 
-使用 Project Coding Web 应用开发框架前需要在工程的 `package.json` 文件的 `dependencies` 字段中添加 `menuet` 模块的依赖。
+使用 Menuet Web 应用开发框架前需要在工程的 `package.json` 文件的 `dependencies` 字段中添加 `menuet` 模块的依赖。
 
 ```json
 {
-  ...
   "dependencies": {
-    ...,
     "menuet": "*"
-  },
-  ...
+  }
 }
 ```
 
 安装依赖包后即可使用 `menuet` 初始化工程。
 
 ```shell
-> npm install
+$ npm install
 ```
 
 ## 初始化工程
@@ -39,16 +38,13 @@ Menuet Web 应用开发框架具有以下特点：
 
 ```json
 {
-  ...,
   "scripts": {
-    ...,
     "init": "menuet-init"
-  },
-  ...
+  }
 }
 ```
 
-执行该脚本，Project Coding Web 应用开发框架将使用示例工程代码初始化当前工程，本说明文档将以该示例工程展开说明。
+执行该脚本，Menuet Web 应用开发框架将使用示例工程代码初始化当前工程，本说明文档将以该示例工程展开说明。
 
 ```shell
 > npm run init
@@ -198,7 +194,7 @@ Menuet Web 应用开发框架具有以下特点：
 {
   "mongo": {
     "host": "HOST",
-    "port": PORT,
+    "port": "PORT",
     "db": "DATABASE_NAME",
     "username": "USERNAME",
     "password": "PASSWORD"
@@ -222,12 +218,11 @@ Menuet Web 应用开发框架具有以下特点：
     "hosts": [
       {
         "host": "HOST_1",
-        "port": PORT_1
+        "port": "PORT_1"
       },
-      ...,
       {
         "host": "HOST_n",
-        "port": PORT_n
+        "port": "PORT_n"
       }
     ],
     "replicaSet": "REPLICA_SET_NAME",
@@ -253,7 +248,7 @@ Menuet Web 应用开发框架具有以下特点：
 {
   "redis": {
     "host": "HOST",
-    "port": PORT,
+    "port": "PORT",
     "password": "PASSWORD"
   }
 }
@@ -325,10 +320,7 @@ const digest = (algorithm, string, base64 = false, charset = 'binary') => {
 /**
  * 数据加密工具生成器。
  *
- * @returns {{
- *   md5: function,
- *   sha384: function
- * }}
+ * @returns {object}
  */
 module.exports = () => {
 
@@ -370,10 +362,7 @@ module.exports = () => {
 /**
  * 返回错误类。
  *
- * @returns {{
- *   AuthenticationError: function,
- *   UnauthorizedError: function
- * }}
+ * @returns {object}
  */
 module.exports = () => {
 
@@ -543,12 +532,7 @@ const verifyJWT = token => {
  * 返回用户账号服务实例。
  *
  * @param {function} UserModel 用户账号数据模型
- * @returns {{
- *   create: function,
- *   authenticate: function,
- *   getProfile: function,
- *   update: function
- * }}
+ * @returns {object}
  */
 module.exports = (UserModel) => {
 
@@ -946,7 +930,6 @@ module.exports = async (req, options) => {
   "index": 1,
   "title": "用户业务",
   "routes": [
-    ...,
     {
       "name": "设置登录用户头像",
       "method": "put",
@@ -1085,13 +1068,10 @@ module.exports = async (UserService) => {
 
 ```json
 {
-  ...,
   "scripts": {
-    ...,
     "start-debug": "NODE_ENV=development menuet",
     "start": "NODE_ENV=production menuet"
-  },
-  ...
+  }
 }
 ```
 
@@ -1099,12 +1079,9 @@ module.exports = async (UserService) => {
 
 ```json
 {
-  ...,
   "scripts": {
-    ...,
     "start": "pm2 start ./app.json --env production"
-  },
-  ...
+  }
 }
 ```
 
@@ -1161,12 +1138,9 @@ module.exports = async (UserService) => {
 
 ```json
 {
-  ...,
   "scripts": {
-    ...,
     "docs": "menuet-docs --lang zh-cn --config config/api-docs.json --output public/docs"
-  },
-  ...
+  }
 }
 ```
 
