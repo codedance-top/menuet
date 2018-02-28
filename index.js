@@ -24,6 +24,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const app = module.exports = express();
 
+app.httpServerState = {
+  state: 'pending',
+  requestCount: 0
+};
+
 const config = app[CONFIG] = loadConfig(path.join(process.env.PWD, 'config'), require('./config/default.json'));
 
 // define module name validator
@@ -84,8 +89,10 @@ const config = app[CONFIG] = loadConfig(path.join(process.env.PWD, 'config'), re
 
 })()
   .then(() => {
+    app.httpServerState.state = 'ready';
     console.log(`HTTP server started, port: ${('' + config.http.port).yellow}`.green);
   })
   .catch(e => {
+    app.httpServerState.state = 'error';
     console.error(e);
   });
