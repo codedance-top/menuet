@@ -1,7 +1,7 @@
 {
   "name": "menuet",
   "description": "Menuet web application development framework",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "engines": {
     "node": ">=7.0.0"

@@ -39,7 +39,7 @@
   <a href="./" class="back"><%= config.texts.backToIndex %></a><%
     doc.routes.forEach(route => {
       route.id = `${route.method}${route.path.replace(/[^0-9a-z]+/gi, '-')}`; %>
-  <a href="#<%= route.id %>" class="api-doc<%= ` ${route.class}` || '' %>">
+  <a href="#<%= route.id %>" class="api-doc<%= route.class ? ` ${route.class}` : '' %>">
     <span><%= route.name %></span>
     <code><%= route.method.toUpperCase() %> <%= route.path %></code>
   </a><% }); %>
