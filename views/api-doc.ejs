@@ -39,7 +39,7 @@
   <a href="./" class="back"><%= config.texts.backToIndex %></a><%
     doc.routes.forEach(route => {
       route.id = `${route.method}${route.path.replace(/[^0-9a-z]+/gi, '-')}`; %>
-  <a href="#<%= route.id %>" class="api-doc <%= route.class || '' %>">
+  <a href="#<%= route.id %>" class="api-doc<%= ` ${route.class}` || '' %>">
     <span><%= route.name %></span>
     <code><%= route.method.toUpperCase() %> <%= route.path %></code>
   </a><% }); %>
@@ -48,7 +48,7 @@
 <h1><%= doc.title %></h1>
 
 <% doc.routes.forEach(route => {
-%><h2 id="<%= route.id %>"><a href="#<%= route.id %>"<% if (route.class) { %> class="<%= route.class %>"<% } %>><%= route.name %></a></h2>
+%><h2 id="<%= route.id %>"<% if (route.class) { %> class="<%= route.class %>"<% } %>><a href="#<%= route.id %>"><%= route.name %></a></h2>
 
 <h3><%= config.heads.path %></h3>
 <pre class="url"><code><span class="method"><%= route.method.toUpperCase() %></span> <%- route.path.replace(/:[^\/?#]+/g, (parameter) => { return `<span class="parameter">${parameter}</span>`; }) %></code></pre>
