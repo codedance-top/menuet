@@ -107,7 +107,7 @@ Object.keys(schema.properties).forEach(propertyName => {
             <tbody><%
                 Object.keys(enumValueMap).forEach(validValue => { %>
               <tr>
-                <td><code><%= validValue %></code></td>
+                <td><code class="enumerable-value"><%= validValue %></code></td>
                 <td><%- escapeHTML(enumValueMap[validValue]) %></td>
               </tr><% }); %>
             </tbody>
