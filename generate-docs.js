@@ -96,6 +96,8 @@ const generateApiDocs = async (config, docs, index = 0, apiCount = 0) => {
     return;
   }
 
+  doc.routes = doc.routes.filter(route => !route.disabled);
+
   // get JSON schemas
   doc.routes.forEach(route => {
     getSchema(config.ajv, route, 'params');
@@ -127,7 +129,8 @@ const escapeHTML = text => (text || '')
   .replace(/>/g, '&gt;')
   .replace(/`(.+?)`/g, '<code>$1</code>')
   .replace(/\[(.+?)]\((.+?)\)/g, '<a href="$2">$1</a>')
-  .replace(/(\r?\n)+/, '<br><br>')
+  .replace(/(\r?\n){2,}/g, '<br><br>')
+  .replace(/(\r?\n)/g, '<br>')
 ;
 
 /**
