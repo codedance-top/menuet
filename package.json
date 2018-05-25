@@ -1,7 +1,7 @@
 {
   "name": "menuet",
   "description": "Menuet web application development framework",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "engines": {
     "node": ">=7.0.0"
@@ -19,7 +19,7 @@
     "ejs": "2.5.7",
     "express": "4.16.2",
     "lodash": "4.17.4",
-    "moment": "^2.19.4",
+    "moment": "2.19.4",
     "mongoose": "4.13.0",
     "mongoose-function": "0.1.0",
     "redis": "2.8.0"
