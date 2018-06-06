@@ -138,7 +138,7 @@ Object.keys(schema.properties).forEach(propertyName => {
           }
           if (typeof(property.minimum) === 'number'
               || typeof(property.exclusiveMinimum) === 'number') {
-        %><code><%= property.minimum || property.exclusiveMinimum %></code><%
+        %><code><%= typeof(property.minimum) === 'number' ? property.minimum : property.exclusiveMinimum %></code><%
           }
           if ((typeof(property.minimum) === 'number'
               || typeof(property.exclusiveMinimum) === 'number')
@@ -148,7 +148,7 @@ Object.keys(schema.properties).forEach(propertyName => {
           }
           if (typeof(property.maximum) === 'number'
               || typeof(property.exclusiveMaximum) === 'number') {
-        %><code><%= property.maximum || property.exclusiveMaximum %></code><%
+        %><code><%= typeof(property.maximum) === 'number' ? property.maximum : property.exclusiveMaximum %></code><%
           }
         %></div><%
           }
