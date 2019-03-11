@@ -11,6 +11,7 @@ const fs = require('fs');
 const promisify = require('util').promisify;
 const writeFile = promisify(fs.writeFile);
 const AJV = require('ajv');
+const jsonSchemaDraft06 = require('ajv/lib/refs/json-schema-draft-06');
 const ajvKeywords = require('ajv-keywords');
 const ejs = require('ejs');
 const deepAssign = require('./utils/deep-assign');
@@ -246,7 +247,16 @@ const getPropertyType = (config, propertyName, schema) => {
     defaultConfig = require('./config/api-doc/en.json');
   }
 
-  config.ajv = ajvKeywords(new AJV(), null);
+  config.ajv = ajvKeywords(new AJV({
+    $data: true,
+    schemaId: '$id',
+    async: 'es7',
+    coerceTypes: true,
+    useDefaults: true,
+    allErrors: true,
+    removeAdditional: 'all'
+  }), null);
+  config.ajv.addMetaSchema(jsonSchemaDraft06);
   config = deepAssign(defaultConfig, config);
   config.outputDir = path.join(WORKING_DIR, args.output);
 
@@ -282,6 +292,9 @@ const getPropertyType = (config, propertyName, schema) => {
       ignoreHiddenFiles: true
     },
     (schema, name) => {
+      schema.$id = schema.$id || schema.id;
+      schema.$schema = schema.$schema || 'http://json-schema.org/draft-07/schema#';
+      schema.$async = true;
       config.ajv.addSchema(schema, name);
     }
   );
