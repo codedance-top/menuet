@@ -816,7 +816,7 @@ exports.setAvatar = async function(context, UserService) {
 > 可用关键字请参考 [AJV Keywords](https://github.com/epoberezkin/ajv-keywords)
 
 > 根据以上默认关键字设置：
-> - `/schemnas/request/` 路径下的所有数据模式定义中的字符串类型的字段若未设置 `transform` 关键字，那么其 `transform` 关键字将被设置为 `["trim""]`
+> - `/schemnas/request/` 路径下的所有数据模式定义中的字符串类型的字段若未设置 `transform` 关键字，那么其 `transform` 关键字将被设置为 `["trim"]`
 
 
 
