@@ -23,7 +23,7 @@ const requireDir = async (dir, onRequired, options, parents) => {
 
   let files = await readDir(dir), filename, filepath, extName, moduleName;
 
-  while (filename = files.shift()) {
+  while (!!(filename = files.shift())) {
 
     filepath = path.join(dir, filename);
     extName = path.extname(filename);
