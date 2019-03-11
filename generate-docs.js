@@ -11,6 +11,7 @@ const fs = require('fs');
 const promisify = require('util').promisify;
 const writeFile = promisify(fs.writeFile);
 const AJV = require('ajv');
+const ajvKeywords = require('ajv-keywords');
 const ejs = require('ejs');
 const deepAssign = require('./utils/deep-assign');
 const requireDir = require('./utils/require-dir');
@@ -20,8 +21,6 @@ const WORKING_DIR = process.env.PWD;
 const API_DOC_TEMPLATE = fs.readFileSync(path.join(__dirname, 'views/api-doc.ejs'), 'utf8');
 const SCHEMA_SPECS_TEMPLATE = fs.readFileSync(path.join(__dirname, 'views/api-doc-schema.ejs'), 'utf8');
 const API_INDEX_TEMPLATE = fs.readFileSync(path.join(__dirname, 'views/api-index.ejs'), 'utf8');
-
-require('ajv-keywords')(AJV);
 
 /**
  * Get arguments.
@@ -247,7 +246,7 @@ const getPropertyType = (config, propertyName, schema) => {
     defaultConfig = require('./config/api-doc/en.json');
   }
 
-  config.ajv = new AJV();
+  config.ajv = ajvKeywords(new AJV(), null);
   config = deepAssign(defaultConfig, config);
   config.outputDir = path.join(WORKING_DIR, args.output);
 
