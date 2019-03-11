@@ -21,6 +21,8 @@ const API_DOC_TEMPLATE = fs.readFileSync(path.join(__dirname, 'views/api-doc.ejs
 const SCHEMA_SPECS_TEMPLATE = fs.readFileSync(path.join(__dirname, 'views/api-doc-schema.ejs'), 'utf8');
 const API_INDEX_TEMPLATE = fs.readFileSync(path.join(__dirname, 'views/api-index.ejs'), 'utf8');
 
+require('ajv-keywords')(AJV);
+
 /**
  * Get arguments.
  * @returns {object}
