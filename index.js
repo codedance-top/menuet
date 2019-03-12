@@ -66,12 +66,9 @@ const config = app[CONFIG] = loadConfig(path.join(process.env.PWD, 'config'), re
 
 // load modules and create HTTP server
 (async function() {
-
   await loaders.strings(app, config.paths.strings);
-
   await redis.connect(app, config.redis);
   await mongo.connect(app, config.mongo);
-
   await loaders.validators(app, config.paths.schemas);
   await loaders.utils(app, config.paths.utils);
   await loaders.models(app, config.paths.models);
@@ -80,13 +77,9 @@ const config = app[CONFIG] = loadConfig(path.join(process.env.PWD, 'config'), re
   await loaders.controllers(app, config.paths.controllers);
   await loaders.resolvers(app, config.paths);
   await loaders.routes(app, config.paths.routes);
-
   await init(app, config.paths.init);
-
   await configApp(app, config);
-
   await createHttpServer(app, config.http);
-
 })()
   .then(() => {
     app.httpServerState.state = 'ready';
