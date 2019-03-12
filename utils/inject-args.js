@@ -8,7 +8,7 @@
  * Inject arguments and call function.
  * @param {string} sourceDir
  * @param {function|[function]} getters
- * @param {[[string|function]|string|function]|function} args
+ * @param {[function|string]} args
  * @returns {function}
  */
 module.exports = function(sourceDir, getters, ...args) {
@@ -29,7 +29,7 @@ module.exports = function(sourceDir, getters, ...args) {
   }
 
   if (args.length === 0 && (argList = func.toString().match(/^(async(\s+function)?|function)?\s*\(((.|\r|\n)+?)\)/))) {
-    args = argList[4].split(/,\s*/g);
+    args = argList[3].split(/,\s*/g);
   }
 
   args.forEach((arg, index) => {
