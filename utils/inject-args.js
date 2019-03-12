@@ -28,7 +28,7 @@ module.exports = function(sourceDir, getters, ...args) {
     throw new Error('generator function is required');
   }
 
-  if (args.length === 0 && (argList = func.toString().match(/^(async(\s+function)?|function)?\s*\(((.|\r|\n)+?)\)/))) {
+  if (args.length === 0 && (argList = func.toString().match(/^(async(\s+function)?|function)?\s*\(([^)]+?)\)/))) {
     args = argList[3].split(/,\s*/g);
   }
 
