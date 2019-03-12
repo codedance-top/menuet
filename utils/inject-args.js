@@ -21,30 +21,27 @@ module.exports = function(sourceDir, getters, ...args) {
     args = args[0];
   }
 
-  let func = args.pop(), argList;
+  let func = args.pop();
+  let argList;
 
   if (typeof(func) !== 'function') {
-    throw new Error('function to be call is required');
+    throw new Error('generator function is required');
   }
 
-  if (args.length === 0 && (argList = (func + '').toString().match(/^(async )?(function )?\((.+?)\)/))) {
-    args = argList[3].split(/,\s*/g);
+  if (args.length === 0 && (argList = func.toString().match(/^(async(\s+function)?|function)?\s*\(((.|\r|\n)+?)\)/))) {
+    args = argList[4].split(/,\s*/g);
   }
 
   args.forEach((arg, index) => {
-
     getters.every(getter => {
       return !(args[index] = getter(arg));
     });
-
     if (!args[index]) {
       throw new Error(`cannot inject argument ${arg.bold} in source ${sourceDir.bold}`.red); // TODO
     }
-
   });
 
   return (...rest) => {
     return func.apply(this, Object.assign(args, rest));
   };
-
 };
