@@ -37,7 +37,7 @@ module.exports = function(sourceDir, getters, ...args) {
       return !(args[index] = getter(arg));
     });
     if (!args[index]) {
-      throw new Error(`cannot inject argument ${arg.bold} in source ${sourceDir.bold}`.red); // TODO
+      throw new Error(`cannot inject argument ${arg.bold} in source ${sourceDir.bold}`.red);
     }
   });
 

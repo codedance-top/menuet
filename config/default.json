@@ -34,6 +34,7 @@
     "controllers": "controllers",
     "defaultResolver": "resolvers/default.js",
     "errorResolver": "resolvers/error.js",
+    "customResolvers": "resolvers",
     "routes": "routes",
     "init": "init.js"
   }
