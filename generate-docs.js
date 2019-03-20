@@ -248,7 +248,7 @@ const getPropertyType = (config, propertyName, schema) => {
     defaultConfig = require('./config/api-doc/en.json');
   }
 
-  config.ajv = ajvMergePatch(ajvKeywords(new AJV({
+  config.ajv = ajvKeywords(new AJV({
     $data: true,
     schemaId: '$id',
     async: 'es7',
@@ -256,7 +256,8 @@ const getPropertyType = (config, propertyName, schema) => {
     useDefaults: true,
     allErrors: true,
     removeAdditional: 'all'
-  }), null));
+  }), null);
+  ajvMergePatch(config.ajv);
   config.ajv.addMetaSchema(jsonSchemaDraft06);
   config = deepAssign(defaultConfig, config);
   config.outputDir = path.join(WORKING_DIR, args.output);
