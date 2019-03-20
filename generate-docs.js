@@ -140,6 +140,8 @@ const escapeHTML = text => (text || '')
  * Render schema specifications.
  * @param {object} config
  * @param {object} schema
+ * @param {object} [schema.$merge]
+ * @param {object} [schema.$patch]
  * @param {object} [options]
  * @param {boolean} [options.showNecessity=true]
  * @returns {string}
@@ -154,11 +156,18 @@ const renderSchemaSpecs = (
     options.showNecessity = true;
   }
 
+  if (schema.$patch) {
+    throw new Error(`${schema.$id}: $patch keyword is not supported`);
+  }
+
+  if (schema.$merge && schema.$merge.source && schema.$merge.with) {
+    deepAssign(schema, deepAssign(schema.$merge.source, schema.$merge.with));
+  }
+
   return ejs.render(
     SCHEMA_SPECS_TEMPLATE,
-    { config, schema, escapeHTML, renderSchemaSpecs, getPropertyType, options }
+    {config, schema, escapeHTML, renderSchemaSpecs, getPropertyType, options}
   );
-
 };
 
 /**
