@@ -161,6 +161,19 @@ const renderSchemaSpecs = (
   }
 
   if (schema.$merge && schema.$merge.source && schema.$merge.with) {
+
+    schema.$merge.source.$ref && (schema.$merge.source = Object.assign(
+      {},
+      config.ajv.getSchema(schema.$merge.source.$ref).schema,
+      schema.$merge.source
+    ));
+
+    schema.$merge.with.$ref && (schema.$merge.with = Object.assign(
+      {},
+      config.ajv.getSchema(schema.$merge.with.$ref).schema,
+      schema.$merge.with
+    ));
+
     deepAssign(schema, deepAssign(schema.$merge.source, schema.$merge.with));
   }
 
