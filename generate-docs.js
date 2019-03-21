@@ -162,19 +162,20 @@ const renderSchemaSpecs = (
 
   if (schema.$merge && schema.$merge.source && schema.$merge.with) {
 
-    schema.$merge.source.$ref && (schema.$merge.source = Object.assign(
-      {},
-      config.ajv.getSchema(schema.$merge.source.$ref).schema,
-      schema.$merge.source
-    ));
+    if (schema.$merge.source.$ref) {
+      const sourceRef = schema.$merge.source.$ref;
+      delete schema.$merge.source.$ref;
+      schema.$merge.source = deepAssign({}, config.ajv.getSchema(sourceRef).schema, schema.$merge.source);
+    }
 
-    schema.$merge.with.$ref && (schema.$merge.with = Object.assign(
-      {},
-      config.ajv.getSchema(schema.$merge.with.$ref).schema,
-      schema.$merge.with
-    ));
+    if (schema.$merge.with.$ref) {
+      const withRef = schema.$merge.with.$ref;
+      delete schema.$merge.with.$ref;
+      schema.$merge.with = deepAssign({}, config.ajv.getSchema(withRef).schema, schema.$merge.with);
+    }
 
-    deepAssign(schema, deepAssign(schema.$merge.source, schema.$merge.with));
+    deepAssign(schema, schema.$merge.source, schema.$merge.with);
+    delete schema.$merge;
   }
 
   return ejs.render(

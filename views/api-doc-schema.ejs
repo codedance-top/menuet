@@ -38,23 +38,30 @@ Object.keys(schema.properties).forEach(propertyName => {
 
         let property = schema.properties[propertyName];
 
-
         if (property.$ref) {
-          property = Object.assign({}, config.ajv.getSchema(property.$ref).schema, property);
+          property = Object.assign(
+            {},
+            Object.assign({}, config.ajv.getSchema(property.$ref).schema),
+            property
+          );
         }
 
         if (property.items && property.items.$ref) {
-
-          property.items = Object.assign({}, config.ajv.getSchema(property.items.$ref).schema, property.items);
-
+          property.items = Object.assign(
+            {},
+            Object.assign({}, config.ajv.getSchema(property.items.$ref).schema),
+            property.items
+          );
         } else if (Array.isArray(property.items)) {
-
           property.items.forEach((item, index) => {
             if (item.$ref) {
-              property.items[index] = Object.assign({}, config.ajv.getSchema(item.$ref).schema, property.items[index]);
+              property.items[index] = Object.assign(
+                {},
+                Object.assign({}, config.ajv.getSchema(item.$ref).schema),
+                property.items[index]
+              );
             }
           });
-
         }
 
         let isRequired = (schema.required || []).indexOf(propertyName) >= 0;

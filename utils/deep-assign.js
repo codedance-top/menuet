@@ -7,21 +7,39 @@
 /**
  * Deep assign.
  * @param {object} target
- * @param {object} source
+ * @param {object} sources
  * @returns {object}
  */
-exports = module.exports = (target, source) => {
+const deepAssign = module.exports = (target, ... sources) => {
 
-  Object.keys(source).forEach(key => {
+  sources.forEach(source => {
+    Object.keys(source).forEach(key => {
 
-    if (!Array.isArray(target[key])) {
-      if (typeof(target[key]) === 'object' && typeof(source[key]) === 'object') {
-        target[key] = exports(target[key], source[key]);
-      } else if (typeof(source[key]) !== 'undefined') {
-        target[key] = source[key];
+      const sourceValueType = typeof(source[key]);
+
+      if (sourceValueType === 'undefined') {
+        return;
       }
-    }
 
+      const targetValueType = typeof(target[key]);
+
+      if (Array.isArray(target[key])
+          || Array.isArray(source[key])
+          || !(targetValueType === 'object' && sourceValueType === 'object')) {
+        target[key] = source[key];
+      } else {
+
+        target[key] = deepAssign(target[key], source[key]);
+
+        if (key === '$enum' && Array.isArray(target['enum'])) {
+          Object.keys(target['$enum']).forEach(value => {
+            if (target['enum'].indexOf(value) < 0) {
+              delete target['$enum'][value];
+            }
+          });
+        }
+      }
+    });
   });
 
   return target;
