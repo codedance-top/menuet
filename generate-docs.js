@@ -142,8 +142,12 @@ const escapeHTML = text => (text || '')
  * @param {object} schema
  * @param {object} [schema.$merge]
  * @param {object} [schema.$patch]
+ * @param {object} [schema.$id]
+ * @param {object} [schema.id]
+ * @param {object} [schema.$ref]
  * @param {object} [options]
  * @param {boolean} [options.showNecessity=true]
+ * @param {[string]} [options.stack]
  * @returns {string}
  */
 const renderSchemaSpecs = (
@@ -151,6 +155,21 @@ const renderSchemaSpecs = (
   schema,
   options = {}
 ) => {
+  options.stack = options.stack || [];
+
+  const schemaId = (schema.$id || schema.$ref || schema.id);
+
+  if (options.stack.length >= 2
+    && [0].concat(options.stack)
+      .reduce((total, next) => (total + (next === schemaId ? 1 : 0))) >= 2) {
+    return '';
+  } else {
+    options.stack.push(schemaId);
+  }
+
+  if (typeof(options.showNecessity) === 'undefined') {
+    options.showNecessity = true;
+  }
 
   if (typeof(options.showNecessity) === 'undefined') {
     options.showNecessity = true;
