@@ -25,7 +25,9 @@ const deepAssign = module.exports = (target, ... sources) => {
 
       if (Array.isArray(target[key])
           || Array.isArray(source[key])
-          || !(targetValueType === 'object' && sourceValueType === 'object')) {
+          || !(targetValueType === 'object' && sourceValueType === 'object')
+          || source[key] === null
+          || typeof(source[key]) === 'undefined') {
         target[key] = source[key];
       } else {
 
