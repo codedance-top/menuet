@@ -38,6 +38,10 @@ Object.keys(schema.properties).forEach(propertyName => {
 
         let property = schema.properties[propertyName];
 
+        if (property.$hidden) {
+          return;
+        }
+
         if (property.$ref) {
           property = Object.assign(
             {},
