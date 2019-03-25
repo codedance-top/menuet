@@ -34,6 +34,8 @@ Object.keys(schema.properties).forEach(propertyName => {
   </thead>
   <tbody><%
 
+      let renameProperties = schema.renameProperties || {};
+
       Object.keys(schema.properties).forEach(propertyName => {
 
         let property = schema.properties[propertyName];
@@ -71,7 +73,7 @@ Object.keys(schema.properties).forEach(propertyName => {
         let isRequired = (schema.required || []).indexOf(propertyName) >= 0;
     %>
     <tr class="<%= isRequired ? 'required' : 'optional' %>">
-      <td class="field-name left"><code><%= propertyName %></code></td>
+      <td class="field-name left"><code><%= renameProperties[propertyName] || propertyName %></code></td>
       <td class="data-type center"><%= getPropertyType(config, propertyName, property) %></td><%
       if (options.showNecessity) { %><td class="required-or-not center"><%= isRequired ? config.values.yes : '' %></td><% }
       if (defaultCount) { %><td class="default-value center"><%
