@@ -22,6 +22,7 @@
     "base": "/"
   },
   "paths": {
+    "base": "/",
     "public": "public",
     "static": "static",
     "views": "views",
