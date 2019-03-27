@@ -270,6 +270,18 @@ const getPropertyType = (config, propertyName, schema) => {
 
   paths = deepAssign(DEFAULT_PATHS, paths);
 
+  paths.base = paths.base || '';
+
+  Object.keys(paths).forEach(key => {
+    if (key === 'base') {
+      return;
+    }
+    paths[key] = path.join(
+      paths[key].startsWith('/') ? '' : paths.base,
+      paths[key]
+    );
+  });
+
   if (args.config) {
     try {
       config = require(path.join(WORKING_DIR, args.config));
