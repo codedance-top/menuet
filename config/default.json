@@ -8,6 +8,12 @@
     "jsonParser": {
       "limit": "2mb"
     },
+    "rawParser": {
+      "limit": "50mb"
+    },
+    "textParser": {
+      "limit": "2mb"
+    },
     "urlencodedParser": {
       "limit": "2mb",
       "extended": true
