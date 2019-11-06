@@ -15,6 +15,7 @@ const jsonSchemaDraft06 = require('ajv/lib/refs/json-schema-draft-06');
 const ajvKeywords = require('ajv-keywords');
 const ajvMergePatch = require('ajv-merge-patch');
 const ejs = require('ejs');
+const omit = require('lodash/omit');
 const deepAssign = require('./utils/deep-assign');
 const requireDir = require('./utils/require-dir');
 
@@ -354,6 +355,34 @@ const getPropertyType = (config, propertyName, schema) => {
       config.ajv.addSchema(schema, name);
     }
   );
+
+  // fix AJV $merge keyword default value issue
+  Object.keys(config.ajv['_schemas']).forEach(schemaId => {
+
+    const schema = config.ajv['_schemas'][schemaId]['schema'];
+
+    if (!(schema.$merge && schema.$merge.source && schema.$merge.with)) {
+      return;
+    }
+
+    if (schema.$merge.source.$ref) {
+      schema.$merge.source = JSON.parse(JSON.stringify(config.ajv.getSchema(schema.$merge.source.$ref).schema));
+    }
+
+    if (schema.$merge.with.$ref) {
+      schema.$merge.with = JSON.parse(JSON.stringify(config.ajv.getSchema(schema.$merge.with.$ref).schema));
+    }
+
+    config.ajv.removeSchema(schema.$id || schema.id);
+    config.ajv.removeSchema(schemaId);
+
+    config.ajv.addSchema(deepAssign(
+      {},
+      omit(schema.$merge.source, ['$id', '$schema', '$async']),
+      omit(schema.$merge.with, ['$id', '$schema', '$async']),
+      omit(schema, ['$merge'])
+    ), schemaId);
+  });
 
   // load route definitions
   await requireDir(path.join(WORKING_DIR, paths.routes), (doc, name) => {
